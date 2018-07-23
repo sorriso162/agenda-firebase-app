@@ -17,7 +17,7 @@ public class informacoesAdicionais extends AppCompatActivity {
     private EditText nome;
     private EditText sobreNome;
     private EditText idade;
-    private Button   salvar;
+    private Button   addInf;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
     private DatabaseReference usaurioDataBase = database.child("usuario");
@@ -30,9 +30,9 @@ public class informacoesAdicionais extends AppCompatActivity {
         nome      = (EditText) findViewById(R.id.nomeTextCliID);
         sobreNome = (EditText) findViewById(R.id.sobrenomeTextID);
         idade     = (EditText) findViewById(R.id.idadeTextID);
-        salvar    = (Button)   findViewById(R.id.salvarInfAdID);
+        addInf    = (Button)   findViewById(R.id.saveBttInfAdd);
 
-        salvar.setOnClickListener(new View.OnClickListener() {
+        addInf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(nome.getText().length() == 0){

@@ -15,10 +15,9 @@ public class DiasCadastroActivity extends AppCompatActivity {
     private Spinner selecao1;
     private Spinner selecao2;
     private Spinner selecao3;
-    private Button  salvar;
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
     private DatabaseReference usaurioDataBase = database.child("usuario");
-
+    private Button saveDias;
     private String [] opcoes = {"segunda","terca","quarta","quinta","sexta","sabado"};
 
     @Override
@@ -29,7 +28,7 @@ public class DiasCadastroActivity extends AppCompatActivity {
         selecao1 = (Spinner) findViewById(R.id.diaSelectOneID);
         selecao2 = (Spinner) findViewById(R.id.diaSelectTwoID);
         selecao3 = (Spinner) findViewById(R.id.diaSelecTreeID);
-        salvar   = (Button)  findViewById(R.id.saveDayButtomID);
+        saveDias = (Button) findViewById(R.id.saveDayButtomID);
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(
                 this,
@@ -39,7 +38,7 @@ public class DiasCadastroActivity extends AppCompatActivity {
         selecao1.setAdapter(arrayAdapter);
         selecao2.setAdapter(arrayAdapter);
         selecao3.setAdapter(arrayAdapter);
-        salvar.setOnClickListener(new View.OnClickListener() {
+        saveDias.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

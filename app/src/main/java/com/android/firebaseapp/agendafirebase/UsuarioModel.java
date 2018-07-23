@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.util.Log;
 import android.widget.CalendarView;
 import com.android.firebaseapp.agendafirebase.resources.EventoDecorador;
+import com.google.api.client.util.DateTime;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -13,27 +14,30 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Locale;
 
 public class UsuarioModel extends Activity {
     public void criarUsuario(DatabaseReference dr, Usuario usuario,int cod){
         dr.child(""+cod).setValue(usuario);
     }
 
-    public ArrayList<CalendarDay> comparaDatas(ArrayList<CalendarDay> calendarDays, ArrayList<Date> listaDeDatas, String dia){
+    public ArrayList<CalendarDay> comparaDatas(ArrayList<CalendarDay> calendarDays, List<Date> listaDeDatas, String dia){
         String segunda = "segunda";
         String terca = "terca";
         String quarta = "quarta";
         String quinta = "quinta";
         String sexta = "sexta";
         String sabado = "sabado";
-
+        int i;
         Calendar calendar = Calendar.getInstance();
-        for(int i = 0;i < listaDeDatas.size(); i++ ){
+        for( i = 0;i < listaDeDatas.size(); i++ ){
             try {
                 Date data = listaDeDatas.get(i);
                 calendar.setTime(data);
@@ -57,23 +61,21 @@ public class UsuarioModel extends Activity {
         return calendarDays;
     }
 
-    public ArrayList<Date> listaDeDatas(Date startDate, Date endDate, ArrayList<Date> datas ){
-      Calendar  calendar = new GregorianCalendar();
+    public ArrayList<Date> dateColector(Date startDate, Date endDate, ArrayList<Date> datas ){
+      Calendar  calendar = Calendar.getInstance();
+        Log.i("Array de datas", ""+datas);
         calendar.setTime(startDate);
-
-        while (calendar.getTime().before(endDate)){
-            Date date = calendar.getTime();
-            datas.add(date);
-            calendar.add(Calendar.DATE, 1);
+        while (calendar.getTime().before(endDate)) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+            datas.add(calendar.getTime());
         }
-
         return datas;
     }
 
     public Date formatarData(Date date,String data){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            format.parse(data);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            date = format.parse(data);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -96,7 +98,7 @@ public class UsuarioModel extends Activity {
             Collection<CalendarDay> calendarDaysReColor;
             Calendar cal = Calendar.getInstance();
             calendarDays = datasFormatColor;
-            int myColor1 = R.color.colorPrimaryDark;
+            int myColor1 = R.color.RedColor;
             calendarView.addDecorators(new EventoDecorador(myColor1, calendarDays));
 
             Calendar calendar = Calendar.getInstance();
@@ -111,7 +113,7 @@ public class UsuarioModel extends Activity {
                 }
             }
             calendarDaysReColor = datasFormatColor2;
-            int myColor = R.color.colorAccent;
+            int myColor = R.color.RedColor;
             calendarView.addDecorator(new EventoDecorador(myColor, calendarDaysReColor));
         }
     }

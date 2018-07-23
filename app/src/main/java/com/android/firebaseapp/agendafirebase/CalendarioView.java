@@ -2,7 +2,9 @@ package com.android.firebaseapp.agendafirebase;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -40,10 +42,10 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class CalendarioView extends Activity {
-
+    ProgressDialog progressDialog;
     private Date startDate;
     private Date endDate;
-    private ArrayList<Date> listaDeDatas;
+    private ArrayList<Date> listaDeDatas = new ArrayList<Date>();
     private ArrayList<CalendarDay> datasFormatColor = new ArrayList<CalendarDay>();
     private MaterialCalendarView calendarView;
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -73,15 +75,15 @@ public class CalendarioView extends Activity {
                 if (dataSnapshot.child(a).child("dia2").getValue() != null) {
                     dia3 = dataSnapshot.child(a).child("dia3").getValue().toString();
                 }
-                String dataInicio = "01/01/2018";
-                String dataFim = "01/01/2022";
+                String dataInicio = "2018-01-01";
+                String dataFim = "2019-01-01";
                 startDate = new Date();
                 endDate   = new Date();
                 //Formatando as datas
-                usuarioModel.formatarData(startDate,dataInicio);
-                usuarioModel.formatarData(endDate, dataFim);
+              startDate =  usuarioModel.formatarData(startDate,dataInicio);
+               endDate = usuarioModel.formatarData(endDate, dataFim);
                 //Populando ArrayList Datas
-                usuarioModel.listaDeDatas(startDate,endDate,listaDeDatas);
+             listaDeDatas =  usuarioModel.dateColector(startDate,endDate,listaDeDatas);
                 //Populando o Array de calendarDay com datas especificas
                 usuarioModel.comparaDatas(datasFormatColor,listaDeDatas,dia1);
                 usuarioModel.comparaDatas(datasFormatColor,listaDeDatas,dia2);
@@ -94,6 +96,7 @@ public class CalendarioView extends Activity {
                 Toast.makeText(getApplicationContext(), "Ouve um erro na comunicacao com o servidor", Toast.LENGTH_SHORT).show();
             }
         });
-    }
+            }
+
 }
 
